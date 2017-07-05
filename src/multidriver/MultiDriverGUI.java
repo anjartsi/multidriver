@@ -134,9 +134,9 @@ public class MultiDriverGUI extends JPanel{
     private class Stop implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            driverFactory.closeAllDrivers();
             panel_url.remove(1);
             panel_url.add(button_begin);
+            driverFactory.closeAllDrivers();
         }
     }
 
