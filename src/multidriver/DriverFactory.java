@@ -19,19 +19,16 @@ import java.util.Scanner;
 /**
  * Created by aourfalian on 7/3/2017.
  */
-public class Driver {
-    private static ArrayList<WebDriver> allDrivers;
+public class DriverFactory {
+    private ArrayList<WebDriver> allDrivers;
     private File inputFile;
     private String url;
-    public Driver() {
+    public DriverFactory() {
         if(allDrivers == null) {allDrivers = new ArrayList<WebDriver>();}
 
-        String directory = System.getProperty("user.dir") + "/input.txt";
-        inputFile = new File(directory);
-
-        readInputFile();
-        pause();
-        closeAllDrivers();
+        //TODO implement save/load functionality
+//        String directory = System.getProperty("user.dir") + "/input.txt";
+//        inputFile = new File(directory);
     }
 
     private void readInputFile() {
@@ -59,8 +56,11 @@ public class Driver {
         }
     }
 
+    public void setUrl(String str) {
+        this.url = str;
+    }
 
-    private WebDriver login(String username, String password) {
+    public WebDriver login(String username, String password) {
         WebDriver driver = createNewDriver();
         driver.get(url);
 
@@ -80,7 +80,7 @@ public class Driver {
     private WebDriver createNewDriver() {
         WebDriver driver;
         // Point to where the chrome driver is
-        System.setProperty("webdriver.chrome.driver",  System.getProperty("user.dir") + "/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver",  System.getProperty("user.dir") + "/external/chromedriver.exe");
 
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
         chromePrefs.put("profile.default_content_settings.popups", 0);
@@ -105,18 +105,7 @@ public class Driver {
         return true;
     }
 
-    private static void pause() {
-        System.out.print("Press Enter to Quit: ");
-        try {
-            System.in.read();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("Quitting");
-    }
-
-    private static boolean closeAllDrivers() {
+    public boolean closeAllDrivers() {
         boolean success = true;
         for(WebDriver d: allDrivers) {
             try {

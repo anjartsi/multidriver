@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 /**
@@ -13,11 +15,13 @@ public class MultiDriverGUI extends JPanel{
     private JPanel panel_url;
     private JTextField text_url;
     private JButton button_begin;
+    private JButton button_stop;
 
     private JPanel panel_users;
     private ArrayList<JTextField> list_users;
     private ArrayList<JPasswordField> list_passwords;
 
+    private DriverFactory driverFactory;
     public MultiDriverGUI() {
         super(true);
 
@@ -25,12 +29,15 @@ public class MultiDriverGUI extends JPanel{
         initializeComponents();
         setupUrlPanel();
         setupUsersPanel(10);
+
+        driverFactory = new DriverFactory();
     }
 
     private void initializeComponents() {
         panel_url = new JPanel();
         text_url = new JTextField();
         button_begin = new JButton();
+        button_stop = new JButton();
 
         panel_users = new JPanel();
         list_users = new ArrayList();
@@ -55,6 +62,10 @@ public class MultiDriverGUI extends JPanel{
         button_begin.addActionListener(new Begin());
         panel_url.add(button_begin);
 
+        button_stop.setText("Stop!");
+        button_stop.setSize(100, 50);
+        button_stop.setLocation(350, 25);
+        button_stop.addActionListener(new Stop());
         this.add(panel_url);
     }
 
@@ -105,7 +116,32 @@ public class MultiDriverGUI extends JPanel{
     private class Begin implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            panel_url.remove(1);
+            panel_url.add(button_stop);
+            driverFactory.setUrl(text_url.getText());
+            String usr, pwd;
+            for(int i = 0; i < list_users.size(); i++) {
+                // If both fields are filled out
+                usr = list_users.get(i).getText();
+                pwd = new String(list_passwords.get(i).getPassword());
+                if(!usr.equals("") && !pwd.equals("")  ) {
+                    driverFactory.login(usr, pwd);
+                }
+            }
         }
+    }
+
+    private class Stop implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            driverFactory.closeAllDrivers();
+            panel_url.remove(1);
+            panel_url.add(button_begin);
+        }
+    }
+
+    public void quit() {
+        driverFactory.closeAllDrivers();
     }
 
     public static MultiDriverGUI buildGUI() {
@@ -116,6 +152,13 @@ public class MultiDriverGUI extends JPanel{
 
         MultiDriverGUI md = new MultiDriverGUI();
 
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                md.quit();
+            }
+        });
         frame.setContentPane(md);
         frame.setVisible(true);
 
