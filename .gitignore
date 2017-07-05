@@ -1,3 +1,3 @@
-*.iws
-workspace.xml
-tasks.xml
+out/*
+.idea/*
+multidriver.iml
