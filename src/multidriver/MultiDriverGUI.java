@@ -71,11 +71,15 @@ public class MultiDriverGUI extends JPanel{
         panel_users.setSize(500, 500);
         panel_users.setLocation(10, 120);
 
-        JPanel splitPane = new JPanel(new GridLayout(1, 2));
+        JSplitPane splitPane = new JSplitPane();
         splitPane.setOpaque(false);
         panel_left.setOpaque(false);
         panel_right.setOpaque(false);
 
+        splitPane.setLeftComponent(panel_left);
+        splitPane.setRightComponent(panel_right);
+        splitPane.setDividerLocation(250);
+        splitPane.setDividerSize(2);
 //        splitPane.setEnabled(false);
 
         for(int i = 0; i < n; i++) {
@@ -85,8 +89,6 @@ public class MultiDriverGUI extends JPanel{
         button_add.setText("Add Username/Password");
         button_add.addActionListener(new AddUser());
 
-
-
         panel_users.add(splitPane);
         panel_users.add(button_add, BorderLayout.SOUTH);
         this.add(panel_users);
@@ -94,9 +96,9 @@ public class MultiDriverGUI extends JPanel{
 
     private void createUsernameAndPassword() {
         int width, height, fontSize;
-        width = 200;
-        height = 50;
-        fontSize = 25;
+        width = 240;
+        height = 40;
+        fontSize = 20;
 
         JTextField tf;
         tf = new JTextField();
