@@ -15,20 +15,16 @@ public class MultiDriverGUI extends JPanel{
     private JButton button_begin;
 
     private JPanel panel_users;
-    JPanel panel_left;
-    JPanel panel_right;
     private ArrayList<JTextField> list_users;
     private ArrayList<JPasswordField> list_passwords;
-    private JButton button_add;
 
     public MultiDriverGUI() {
         super(true);
 
         this.setLayout(null);
-        this.setBackground(Color.DARK_GRAY);
         initializeComponents();
         setupUrlPanel();
-        setupUsersPanel(3);
+        setupUsersPanel(10);
     }
 
     private void initializeComponents() {
@@ -37,18 +33,15 @@ public class MultiDriverGUI extends JPanel{
         button_begin = new JButton();
 
         panel_users = new JPanel();
-        panel_left = new JPanel();
         list_users = new ArrayList();
-        panel_right = new JPanel();
         list_passwords = new ArrayList();
-        button_add = new JButton();
     }
 
     private void setupUrlPanel() {
+        panel_url.setBackground(Color.DARK_GRAY);
         panel_url.setSize(500, 100);
         panel_url.setLocation(10, 10);
         panel_url.setLayout(null);
-//        panel_url.setBackground(Color.DARK_GRAY);
 
         text_url.setSize(325, 50);
         text_url.setLocation(25, 25);
@@ -66,31 +59,25 @@ public class MultiDriverGUI extends JPanel{
     }
 
     private void setupUsersPanel(int n) {
-//        panel_users.setBackground(Color.DARK_GRAY);
-        panel_users.setLayout(new BorderLayout());
+        panel_users.setBackground(Color.DARK_GRAY);
         panel_users.setSize(500, 500);
+        panel_users.setLayout(new GridLayout(n + 1, 2));
         panel_users.setLocation(10, 120);
 
-        JSplitPane splitPane = new JSplitPane();
-        splitPane.setOpaque(false);
-        panel_left.setOpaque(false);
-        panel_right.setOpaque(false);
-
-        splitPane.setLeftComponent(panel_left);
-        splitPane.setRightComponent(panel_right);
-        splitPane.setDividerLocation(250);
-        splitPane.setDividerSize(2);
-//        splitPane.setEnabled(false);
+        Font f = new Font(Font.SANS_SERIF, Font.PLAIN, 25);
+        JLabel usr = new JLabel("Usernames");
+        usr.setFont(f);
+        usr.setForeground(Color.white);
+        JLabel pwd = new JLabel("Passwords");
+        pwd.setFont(f);
+        pwd.setForeground(Color.white);
+        panel_users.add(usr);
+        panel_users.add(pwd);
 
         for(int i = 0; i < n; i++) {
             createUsernameAndPassword();
         }
 
-        button_add.setText("Add Username/Password");
-        button_add.addActionListener(new AddUser());
-
-        panel_users.add(splitPane);
-        panel_users.add(button_add, BorderLayout.SOUTH);
         this.add(panel_users);
     }
 
@@ -105,23 +92,16 @@ public class MultiDriverGUI extends JPanel{
         tf.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, fontSize));
         tf.setPreferredSize(new Dimension(width, height));
         list_users.add(tf);
-        panel_left.add(tf);
+        panel_users.add(tf);
 
         JPasswordField pw;
         pw = new JPasswordField();
         pw.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
         pw.setPreferredSize(new Dimension(width, height));
         list_passwords.add(pw);
-        panel_right.add(pw);
+        panel_users.add(pw);
     }
 
-    private class AddUser implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            createUsernameAndPassword();
-            panel_users.updateUI();
-        }
-    }
     private class Begin implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
