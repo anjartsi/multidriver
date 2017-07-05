@@ -125,7 +125,8 @@ public class MultiDriverGUI extends JPanel{
                 usr = list_users.get(i).getText();
                 pwd = new String(list_passwords.get(i).getPassword());
                 if(!usr.equals("") && !pwd.equals("")  ) {
-                    driverFactory.login(usr, pwd);
+                    try {driverFactory.login(usr, pwd);
+                    } catch (Exception exc) { exc.printStackTrace();}
                 }
             }
         }
