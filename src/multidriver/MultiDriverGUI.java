@@ -71,15 +71,11 @@ public class MultiDriverGUI extends JPanel{
         panel_users.setSize(500, 500);
         panel_users.setLocation(10, 120);
 
-        JSplitPane splitPane = new JSplitPane();
+        JPanel splitPane = new JPanel(new GridLayout(1, 2));
         splitPane.setOpaque(false);
         panel_left.setOpaque(false);
         panel_right.setOpaque(false);
 
-        splitPane.setLeftComponent(panel_left);
-        splitPane.setRightComponent(panel_right);
-        splitPane.setDividerLocation(250);
-        splitPane.setDividerSize(2);
 //        splitPane.setEnabled(false);
 
         for(int i = 0; i < n; i++) {
