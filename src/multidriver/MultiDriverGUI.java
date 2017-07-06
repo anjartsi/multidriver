@@ -1,11 +1,9 @@
 package multidriver;
 
 import javax.swing.*;
+import javax.swing.text.Highlighter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 /**
@@ -54,6 +52,7 @@ public class MultiDriverGUI extends JPanel{
         text_url.setLocation(25, 25);
         text_url.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
         text_url.setText("https://google.com");
+        text_url.addFocusListener(new SelectAll());
         panel_url.add(text_url);
 
         button_begin.setText("Begin!");
@@ -102,6 +101,7 @@ public class MultiDriverGUI extends JPanel{
         tf = new JTextField();
         tf.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, fontSize));
         tf.setPreferredSize(new Dimension(width, height));
+        tf.addFocusListener(new SelectAll());
         list_users.add(tf);
         panel_users.add(tf);
 
@@ -109,8 +109,23 @@ public class MultiDriverGUI extends JPanel{
         pw = new JPasswordField();
         pw.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
         pw.setPreferredSize(new Dimension(width, height));
+        pw.addFocusListener(new SelectAll());
         list_passwords.add(pw);
         panel_users.add(pw);
+    }
+
+    private class SelectAll implements FocusListener {
+
+        @Override
+        public void focusGained(FocusEvent e) {
+            JTextField tf = (JTextField) e.getSource();
+            tf.select(0, tf.getText().length());
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+
+        }
     }
 
     private class Begin implements ActionListener {
