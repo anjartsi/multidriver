@@ -10,6 +10,7 @@ import java.util.ArrayList;
  * Created by aourf on 7/4/2017.
  */
 public class MultiDriverGUI extends JPanel{
+    private JFrame parentFrame;
     private JPanel panel_url;
     private JTextField text_url;
     private JButton button_begin;
@@ -19,14 +20,18 @@ public class MultiDriverGUI extends JPanel{
     private ArrayList<JTextField> list_users;
     private ArrayList<JPasswordField> list_passwords;
 
+    private JMenuBar menuBar;
+
     private DriverFactory driverFactory;
-    public MultiDriverGUI() {
+    public MultiDriverGUI(JFrame f) {
         super(true);
+        this.parentFrame = f;
 
         this.setLayout(null);
         initializeComponents();
         setupUrlPanel();
         setupUsersPanel(10);
+        setupMenu();
 
         driverFactory = new DriverFactory();
     }
@@ -40,6 +45,8 @@ public class MultiDriverGUI extends JPanel{
         panel_users = new JPanel();
         list_users = new ArrayList();
         list_passwords = new ArrayList();
+
+        menuBar = new JMenuBar();
     }
 
     private void setupUrlPanel() {
@@ -91,6 +98,30 @@ public class MultiDriverGUI extends JPanel{
         this.add(panel_users);
     }
 
+    private void setupMenu() {
+        JMenu m_file = new JMenu("File");
+        JMenuItem mi_save = new JMenuItem("Save");
+        JMenuItem mi_saveAs = new JMenuItem("Save As ...");
+        JMenuItem mi_load = new JMenuItem("Load");
+        JMenuItem mi_exit = new JMenuItem("Exit");
+        m_file.add(mi_save);
+        m_file.add(mi_saveAs);
+        m_file.add(mi_load);
+        m_file.add(mi_exit);
+
+        JMenu m_adv = new JMenu("Advanced");
+        JMenuItem mi_browser = new JMenuItem("Change Browser...");
+        JMenuItem mi_selectors = new JMenuItem("Change Webdriver Selectors...");
+        m_adv.add(mi_browser);
+        m_adv.add(mi_selectors);
+
+        menuBar.add(m_file);
+        menuBar.add(m_adv);
+
+        parentFrame.setJMenuBar(menuBar);
+
+    }
+
     private void createUsernameAndPassword() {
         int width, height, fontSize;
         width = 240;
@@ -115,7 +146,6 @@ public class MultiDriverGUI extends JPanel{
     }
 
     private class SelectAll implements FocusListener {
-
         @Override
         public void focusGained(FocusEvent e) {
             JTextField tf = (JTextField) e.getSource();
@@ -123,9 +153,7 @@ public class MultiDriverGUI extends JPanel{
         }
 
         @Override
-        public void focusLost(FocusEvent e) {
-
-        }
+        public void focusLost(FocusEvent e) {}
     }
 
     private class Begin implements ActionListener {
@@ -170,7 +198,7 @@ public class MultiDriverGUI extends JPanel{
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        MultiDriverGUI md = new MultiDriverGUI();
+        MultiDriverGUI md = new MultiDriverGUI(frame);
 
         frame.addWindowListener(new WindowAdapter() {
             @Override
