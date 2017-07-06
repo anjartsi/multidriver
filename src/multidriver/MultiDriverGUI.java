@@ -133,6 +133,8 @@ public class MultiDriverGUI extends JPanel{
         public void actionPerformed(ActionEvent e) {
             panel_url.remove(1);
             panel_url.add(button_stop);
+            panel_url.updateUI();
+
             driverFactory.setUrl(text_url.getText());
             String usr, pwd;
             for(int i = 0; i < list_users.size(); i++) {
@@ -152,6 +154,8 @@ public class MultiDriverGUI extends JPanel{
         public void actionPerformed(ActionEvent e) {
             panel_url.remove(1);
             panel_url.add(button_begin);
+            panel_url.updateUI();
+
             driverFactory.closeAllDrivers();
         }
     }

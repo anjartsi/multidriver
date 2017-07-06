@@ -80,7 +80,7 @@ public class DriverFactory {
     private WebDriver createNewDriver() {
         WebDriver driver;
         // Point to where the chrome driver is
-        System.setProperty("webdriver.chrome.driver",  System.getProperty("user.dir") + "/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver",  System.getProperty("user.dir") + "/drivers/chromedriver.exe");
 
         HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
         chromePrefs.put("profile.default_content_settings.popups", 0);
